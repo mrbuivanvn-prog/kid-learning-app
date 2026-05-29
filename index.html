@@ -2,9 +2,30 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Học Chữ">
+    <meta name="application-name" content="Học Chữ Cái">
+    <meta name="description" content="Ứng dụng học chữ cái tiếng Việt, toán và tiếng Anh cho trẻ em Việt Nam">
+    <meta name="theme-color" content="#667eea">
+    
     <title>Học Chữ Cái - Cho Bé Việt Nam 🏫</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="icon.svg">
+    <link rel="apple-touch-icon" sizes="192x192" href="icon.svg">
+    <link rel="apple-touch-icon" sizes="512x512" href="icon.svg">
+    
+    <!-- Splash Screen for iOS -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
@@ -1185,6 +1206,87 @@
                 speechSynthesis.speak(utterance);
             }
         }
+
+        // ==================== PWA SERVICE WORKER ====================
+        // Đăng ký Service Worker để cài đặt trên điện thoại
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered successfully');
+                        // Kiểm tra xem có thể cài đặt PWA không
+                        checkInstallPrompt();
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+
+        // Xử lý cài đặt PWA
+        let deferredPrompt;
+        let installBtn = null;
+
+        function checkInstallPrompt() {
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                showInstallButton();
+            });
+        }
+
+        function showInstallButton() {
+            // Tạo nút cài đặt nếu chưa có
+            if (!document.getElementById('install-btn')) {
+                const installBtn = document.createElement('button');
+                installBtn.id = 'install-btn';
+                installBtn.textContent = '📱 Cài Đặt Ứng Dụng';
+                installBtn.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: linear-gradient(135deg, #4ecdc4, #26a69a);
+                    color: white;
+                    padding: 15px 30px;
+                    border-radius: 50px;
+                    border: none;
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    box-shadow: 0 5px 20px rgba(78,205,196,0.4);
+                    z-index: 1000;
+                    animation: bounce 2s infinite;
+                `;
+                installBtn.onclick = installPWA;
+                document.body.appendChild(installBtn);
+
+                // Ẩn nút sau 30 giây nếu không cài
+                setTimeout(() => {
+                    const btn = document.getElementById('install-btn');
+                    if (btn) btn.remove();
+                }, 30000);
+            }
+        }
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the A2HS prompt');
+                    }
+                    deferredPrompt = null;
+                    const btn = document.getElementById('install-btn');
+                    if (btn) btn.remove();
+                });
+            }
+        }
+
+        // Thông báo đã cài đặt thành công
+        window.addEventListener('appinstalled', () => {
+            alert('🎉 Đã cài đặt thành công! Bây giờ bạn có thể mở ứng dụng từ màn hình chính.');
+        });
     </script>
 </body>
 </html>
