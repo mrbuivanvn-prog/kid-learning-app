@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Chữ Cái - Cho Bé Việt Nam 🏫</title>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        h1 span {
+            display: inline-block;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+
+        .menu-card .icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .menu-card h2 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .menu-card.vietnamese { border-top: 5px solid #ff6b6b; }
+        .menu-card.math { border-top: 5px solid #4ecdc4; }
+        .menu-card.english { border-top: 5px solid #45b7d1; }
+
+        .back-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #f0f0f0;
+            transform: scale(1.05);
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .lesson-area {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .lesson-title {
+            text-align: center;
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+
+        /* Chữ cái tiếng Việt */
+        .alphabet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .letter-card {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 25px 15px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .letter-card:hover {
+            transform: scale(1.1) rotate(-5deg);
+            box-shadow: 0 10px 20px rgba(255,107,107,0.4);
+        }
+
+        .letter-card.selected {
+            background: linear-gradient(135deg, #ee5a5a, #cc4444);
+            transform: scale(1.1);
+        }
+
+        .word-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .word-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .word-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .word-card .word {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .word-card .meaning {
+            color: #666;
+            margin-top: 8px;
+            font-size: 1rem;
+        }
+
+        .word-card .image {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        /* Vần ghép */
+        .vowel-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+
+        .vowel-tab {
+            background: linear-gradient(135deg, #a855f7, #c084fc);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .vowel-tab:hover, .vowel-tab.active {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(168,85,247,0.4);
+        }
+
+        /* Toán học */
+        .math-container {
+            text-align: center;
+        }
+
+        .math-problem {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #333;
+            margin: 30px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 20px;
+        }
+
+        .answer-input {
+            font-size: 3rem;
+            padding: 15px 30px;
+            text-align: center;
+            border: 3px solid #4ecdc4;
+            border-radius: 15px;
+            width: 200px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            border-color: #26a69a;
+            box-shadow: 0 0 15px rgba(78,205,196,0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, #4ecdc4, #26a69a);
+            color: white;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, #ffd700, #ffb700);
+            padding: 15px 30px;
+            border-radius: 50px;
+            display: inline-block;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .result-emoji {
+            font-size: 5rem;
+            margin: 20px 0;
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Tiếng Anh */
+        .english-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .english-card {
+            background: linear-gradient(135deg, #45b7d1, #3a9fb8);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .english-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(69,183,209,0.4);
+        }
+
+        .english-card .word {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .english-card .pronunciation {
+            font-size: 1.2rem;
+            margin: 10px 0;
+            opacity: 0.9;
+        }
+
+        .english-card .meaning {
+            font-size: 1.1rem;
+            padding: 10px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+
+        .speaker-btn {
+            background: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .speaker-btn:hover {
+            transform: scale(1.1);
+            background: #f0f0f0;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+
+        .category-tab {
+            background: #e9ecef;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .category-tab:hover, .category-tab.active {
+            background: #45b7d1;
+            color: white;
+        }
+
+        /* Phát âm tiếng Anh */
+        .pronunciation-section {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 25px;
+        }
+
+        .letter-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .letter-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .letter-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+
+        .phonetic-display {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            margin-top: 20px;
+        }
+
+        .phonetic-letter {
+            font-size: 5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .phonetic-sound {
+            font-size: 2rem;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .phonetic-example {
+            font-size: 1.5rem;
+            color: #333;
+            margin-top: 15px;
+        }
+
+        /* Progress bar */
+        .progress-container {
+            background: #e9ecef;
+            border-radius: 50px;
+            height: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4ecdc4, #26a69a);
+            border-radius: 50px;
+            transition: width 0.5s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .letter-card {
+                padding: 20px 10px;
+                font-size: 1.5rem;
+            }
+            
+            .math-problem {
+                font-size: 3rem;
+            }
+            
+            .answer-input {
+                font-size: 2rem;
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏫 HỌC CHỮ CÁI CHO BÉ VIỆT NAM 🇻🇳</h1>
+        
+        <!-- Menu Chính -->
+        <div id="main-menu" class="menu-grid">
+            <div class="menu-card vietnamese" onclick="showSection('vietnamese')">
+                <div class="icon">📝</div>
+                <h2>Tiếng Việt</h2>
+                <p>Học chữ cái và vần ghép</p>
+            </div>
+            <div class="menu-card math" onclick="showSection('math')">
+                <div class="icon">🔢</div>
+                <h2>Toán Học</h2>
+                <p>Cộng trừ cơ bản</p>
+            </div>
+            <div class="menu-card english" onclick="showSection('english')">
+                <div class="icon">🌍</div>
+                <h2>Tiếng Anh</h2>
+                <p>Học phát âm và từ vựng</p>
+            </div>
+        </div>
+
+        <!-- Tiếng Việt -->
+        <div id="vietnamese" class="section">
+            <button class="back-btn" onclick="showSection('main')">← Quay lại</button>
+            <div class="lesson-area">
+                <h2 class="lesson-title">📝 Học Tiếng Việt</h2>
+                
+                <div class="category-tabs">
+                    <div class="category-tab active" onclick="showVietnameseTab('alphabet')">Bảng Chữ Cái</div>
+                    <div class="category-tab" onclick="showVietnameseTab('vowel')">Vần Ghép</div>
+                </div>
+
+                <!-- Bảng chữ cái -->
+                <div id="alphabet-tab">
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">👆 Bấm vào chữ cái để xem từ ví dụ</p>
+                    <div class="alphabet-grid" id="alphabet-grid"></div>
+                    <div id="word-examples" class="word-examples" style="display: none;"></div>
+                </div>
+
+                <!-- Vần ghép -->
+                <div id="vowel-tab" style="display: none;">
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">👆 Chọn vần để học cách ghép</p>
+                    <div class="vowel-tabs" id="vowel-tabs"></div>
+                    <div id="vowel-examples" class="word-examples"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toán Học -->
+        <div id="math" class="section">
+            <button class="back-btn" onclick="showSection('main')">← Quay lại</button>
+            <div class="lesson-area">
+                <h2 class="lesson-title">🔢 Toán Học</h2>
+                
+                <div class="score-display">⭐ Điểm: <span id="score">0</span></div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar" style="width: 0%"></div>
+                </div>
+
+                <div class="math-container">
+                    <div class="math-problem" id="math-problem">5 + 3 = ?</div>
+                    <input type="number" class="answer-input" id="math-answer" placeholder="?" onkeypress="handleMathKey(event)">
+                    
+                    <div id="math-result" style="display: none;">
+                        <div class="result-emoji" id="result-emoji">🎉</div>
+                        <p id="result-text" style="font-size: 1.5rem; color: #333;"></p>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn btn-check" onclick="checkMath()">Kiểm Tra ✓</button>
+                    <button class="btn btn-next" onclick="nextMath()">Câu Tiếp →</button>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <label style="font-size: 1.1rem; color: #666;">Chọn độ khó: </label>
+                    <select id="math-difficulty" onchange="generateMath()" style="padding: 10px 20px; border-radius: 10px; font-size: 1rem;">
+                        <option value="easy">Dễ (1-10)</option>
+                        <option value="medium">Trung bình (1-20)</option>
+                        <option value="hard">Khó (1-50)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tiếng Anh -->
+        <div id="english" class="section">
+            <button class="back-btn" onclick="showSection('main')">← Quay lại</button>
+            <div class="lesson-area">
+                <h2 class="lesson-title">🌍 Học Tiếng Anh</h2>
+                
+                <div class="category-tabs">
+                    <div class="category-tab active" onclick="showEnglishTab('vocabulary')">Từ Vựng</div>
+                    <div class="category-tab" onclick="showEnglishTab('pronunciation')">Phát Âm ABC</div>
+                    <div class="category-tab" onclick="showEnglishTab('numbers')">Số Đếm Tiếng Anh</div>
+                </div>
+
+                <!-- Từ vựng -->
+                <div id="vocabulary-tab">
+                    <div class="english-grid" id="vocabulary-grid"></div>
+                </div>
+
+                <!-- Phát âm -->
+                <div id="pronunciation-tab" style="display: none;">
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">👆 Bấm vào chữ để nghe phát âm</p>
+                    <div class="letter-list" id="letter-list"></div>
+                    
+                    <div class="pronunciation-section" id="pronunciation-display" style="display: none;">
+                        <h3 style="text-align: center; color: #667eea;">Âm thanh của chữ</h3>
+                        <div class="phonetic-display">
+                            <div class="phonetic-letter" id="phonetic-letter">A</div>
+                            <div class="phonetic-sound" id="phonetic-sound">/eɪ/</div>
+                            <div class="phonetic-example" id="phonetic-example">Apple - /ˈæpl/</div>
+                            <button class="speaker-btn" onclick="speakLetter()">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Số đếm -->
+                <div id="numbers-tab" style="display: none;">
+                    <div class="english-grid" id="numbers-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== DỮ LIỆU ====================
+        
+        // Bảng chữ cái tiếng Việt
+        const vietnameseAlphabet = [
+            'A', 'Ă', 'Â', 'B', 'C', 'D', 'Đ', 'E', 'Ê', 'G', 
+            'H', 'I', 'K', 'L', 'M', 'N', 'O', 'Ô', 'Ơ', 'P', 
+            'Q', 'R', 'S', 'T', 'U', 'Ư', 'V', 'X', 'Y'
+        ];
+
+        // Từ ví dụ theo chữ cái
+        const wordExamples = {
+            'A': [
+                { word: 'Á', meaning: 'áo', image: '👕' },
+                { word: 'An', meaning: 'bình an', image: '☮️' },
+                { word: 'Ao', meaning: 'áo', image: '👚' }
+            ],
+            'Ă': [
+                { word: 'Ăn', meaning: 'nhập thức ăn', image: '🍽️' },
+                { word: 'Ăng', meaning: 'cây ăng ten', image: '📡' }
+            ],
+            'Â': [
+                { word: 'Âm', meaning: 'âm thanh', image: '🔊' },
+                { word: 'Ân', meaning: 'ơn ân', image: '🙏' }
+            ],
+            'B': [
+                { word: 'Bà', meaning: 'bà ngoại', image: '👵' },
+                { word: 'Bé', meaning: 'em bé', image: '👶' },
+                { word: 'Bò', meaning: 'con bò', image: '🐄' }
+            ],
+            'C': [
+                { word: 'Cá', meaning: 'con cá', image: '🐟' },
+                { word: 'Cô', meaning: 'cô giáo', image: '👩‍🏫' }
+            ],
+            'D': [
+                { word: 'Da', meaning: 'làn da', image: '🤚' },
+                { word: 'Dê', meaning: 'con dê', image: '🐐' }
+            ],
+            'Đ': [
+                { word: 'Đà', meaning: 'đà điểu', image: '🦩' },
+                { word: 'Đi', meaning: 'di chuyển', image: '🚶' }
+            ],
+            'E': [
+                { word: 'Em', meaning: 'em gái', image: '👧' },
+                { word: 'En', meaning: 'en en', image: '😄' }
+            ],
+            'Ê': [
+                { word: 'Ê', meaning: 'kê', image: '🐔' },
+                { word: 'Mê', meaning: 'say mê', image: '💕' }
+            ],
+            'G': [
+                { word: 'Gà', meaning: 'con gà', image: '🐔' },
+                { word: 'Ga', meaning: 'nhà ga', image: '🚂' }
+            ],
+            'H': [
+                { word: 'Ho', meaning: 'ho hắt', image: '🤧' },
+                { word: 'Hà', meaning: 'hà nội', image: '🏛️' }
+            ],
+            'I': [
+                { word: 'Im', meaning: 'im lặng', image: '🤫' },
+                { word: 'Ích', meaning: 'lợi ích', image: '💡' }
+            ],
+            'K': [
+                { word: 'Ka', meaning: 'ka ka', image: '😂' },
+                { word: 'Kem', meaning: 'kem ăn', image: '🍦' }
+            ],
+            'L': [
+                { word: 'La', meaning: 'la hét', image: '📣' },
+                { word: 'Lá', meaning: 'chiếc lá', image: '🍃' }
+            ],
+            'M': [
+                { word: 'Ma', meaning: 'con ma', image: '👻' },
+                { word: 'Mèo', meaning: 'con mèo', image: '🐱' }
+            ],
+            'N': [
+                { word: 'Na', meaning: 'na ăn', image: '🥭' },
+                { word: 'Nón', meaning: 'mũ nón', image: '🧢' }
+            ],
+            'O': [
+                { word: 'Om', meaning: 'om sòm', image: '😤' },
+                { word: 'Ong', meaning: 'con ong', image: '🐝' }
+            ],
+            'Ô': [
+                { word: 'Ông', meaning: 'ông nội', image: '👴' },
+                { word: 'Ô', meaning: 'ô tô', image: '🚗' }
+            ],
+            'Ơ': [
+                { word: 'Ơ', meaning: 'ơ ơ', image: '🤔' },
+                { word: 'Mơ', meaning: 'giấc mơ', image: '💭' }
+            ],
+            'P': [
+                { word: 'Phở', meaning: 'bánh phở', image: '🍜' },
+                { word: 'Pa', meaning: 'papa', image: '👨' }
+            ],
+            'Q': [
+                { word: 'Quà', meaning: 'quà tặng', image: '🎁' },
+                { word: 'Quốc', meaning: 'quốc gia', image: '🏳️' }
+            ],
+            'R': [
+                { word: 'Rùa', meaning: 'con rùa', image: '🐢' },
+                { word: 'Ra', meaning: 'ra ngoài', image: '🚪' }
+            ],
+            'S': [
+                { word: 'Sao', meaning: 'ngôi sao', image: '⭐' },
+                { word: 'Sữa', meaning: 'sữa uống', image: '🥛' }
+            ],
+            'T': [
+                { word: 'Ta', meaning: 'chúng ta', image: '👫' },
+                { word: 'Tô', meaning: 'tô ăn', image: '🍲' }
+            ],
+            'U': [
+                { word: 'Ú', meaning: 'úp úp', image: '👶' },
+                { word: 'Uống', meaning: 'uống nước', image: '🥤' }
+            ],
+            'Ư': [
+                { word: 'Ư', meaning: 'ước', image: '💫' },
+                { word: 'Mưa', meaning: 'trời mưa', image: '🌧️' }
+            ],
+            'V': [
+                { word: 'Vá', meaning: 'vá áo', image: '👔' },
+                { word: 'Vẽ', meaning: 'vẽ tranh', image: '🎨' }
+            ],
+            'X': [
+                { word: 'Xa', meaning: 'xa xôi', image: '🏔️' },
+                { word: 'Xem', meaning: 'xem phim', image: '📺' }
+            ],
+            'Y': [
+                { word: 'Yêu', meaning: 'yêu thương', image: '❤️' },
+                { word: 'Y', meaning: 'ý chí', image: '💪' }
+            ]
+        };
+
+        // Vần ghép
+        const vowels = ['a', 'ă', 'â', 'e', 'ê', 'i', 'o', 'ô', 'ơ', 'u', 'ư', 'y'];
+        
+        const syllableExamples = {
+            'a': [
+                { word: 'ba', meaning: 'ba người', image: '👨‍👩‍👧' },
+                { word: 'ca', meaning: 'hát ca', image: '🎤' },
+                { word: 'da', meaning: 'làn da', image: '🤚' },
+                { word: 'ga', meaning: 'tàu hỏa', image: '🚂' },
+                { word: 'ha', meaning: 'cười ha', image: '😄' }
+            ],
+            'ă': [
+                { word: 'băng', meaning: 'băng giấy', image: '📄' },
+                { word: 'căng', meaning: 'căng thẳng', image: '😰' },
+                { word: 'măng', meaning: 'măng tre', image: '🎋' }
+            ],
+            'â': [
+                { word: 'bây', meaning: 'bây giờ', image: '🕐' },
+                { word: 'cây', meaning: 'cây cối', image: '🌳' },
+                { word: 'gây', meaning: 'gây hại', image: '⚠️' }
+            ],
+            'e': [
+                { word: 'be', meaning: 'em bé', image: '👶' },
+                { word: 'ke', meaning: 'cái kẹo', image: '🍬' },
+                { word: 'me', meaning: 'mẹ', image: '👩' }
+            ],
+            'ê': [
+                { word: 'bê', meaning: 'bê con', image: '🐄' },
+                { word: 'kẹo', meaning: 'kẹo ngọt', image: '🍭' },
+                { word: 'mê', meaning: 'say mê', image: '💕' }
+            ],
+            'i': [
+                { word: 'bi', meaning: 'quả bóng', image: '⚽' },
+                { word: 'chị', meaning: 'chị gái', image: '👩' },
+                { word: 'đi', meaning: 'đi bộ', image: '🚶' }
+            ],
+            'o': [
+                { word: 'bo', meaning: 'bò', image: '🐄' },
+                { word: 'co', meaning: 'co lại', image: '🤸' },
+                { word: 'ho', meaning: 'ho hóp', image: '😮' }
+            ],
+            'ô': [
+                { word: 'bô', meaning: 'bô bô', image: '👶' },
+                { word: 'cô', meaning: 'cô giáo', image: '👩‍🏫' },
+                { word: 'gô', meaning: 'gô ghy', image: '🎸' }
+            ],
+            'ơ': [
+                { word: 'bơ', meaning: 'bơ i', image: '🥑' },
+                { word: 'cơ', meaning: 'cơm', image: '🍚' },
+                { word: 'hơ', meaning: 'hơ ớ', image: '😰' }
+            ],
+            'u': [
+                { word: 'bu', meaning: 'bú sữa', image: '🍼' },
+                { word: 'cu', meaning: 'cuốn', image: '📒' },
+                { word: 'chu', meaning: 'con chuột', image: '🐭' }
+            ],
+            'ư': [
+                { word: 'bư', meaning: 'bưu điện', image: '📮' },
+                { word: 'cư', meaning: 'cư dân', image: '🏠' },
+                { word: 'mưa', meaning: 'trời mưa', image: '🌧️' }
+            ],
+            'y': [
+                { word: 'by', meaning: 'by by', image: '✈️' },
+                { word: 'ky', meaning: 'kỳ', image: '✨' },
+                { word: 'my', meaning: 'mý', image: '🌟' }
+            ]
+        };
+
+        // Từ vựng tiếng Anh
+        const englishVocabulary = [
+            { word: 'Apple', pronunciation: '/ˈæpəl/', meaning: 'Quả táo', emoji: '🍎' },
+            { word: 'Banana', pronunciation: '/bəˈnænə/', meaning: 'Quả chuối', emoji: '🍌' },
+            { word: 'Cat', pronunciation: '/kæt/', meaning: 'Con mèo', emoji: '🐱' },
+            { word: 'Dog', pronunciation: '/dɔːɡ/', meaning: 'Con chó', emoji: '🐕' },
+            { word: 'Elephant', pronunciation: '/ˈɛlɪfənt/', meaning: 'Con voi', emoji: '🐘' },
+            { word: 'Fish', pronunciation: '/fɪʃ/', meaning: 'Con cá', emoji: '🐟' },
+            { word: 'Book', pronunciation: '/bʊk/', meaning: 'Quyển sách', emoji: '📚' },
+            { word: 'Car', pronunciation: '/kɑːr/', meaning: 'Ô tô', emoji: '🚗' },
+            { word: 'Sun', pronunciation: '/sʌn/', meaning: 'Mặt trời', emoji: '☀️' },
+            { word: 'Moon', pronunciation: '/muːn/', meaning: 'Mặt trăng', emoji: '🌙' },
+            { word: 'Star', pronunciation: '/stɑːr/', meaning: 'Ngôi sao', emoji: '⭐' },
+            { word: 'Tree', pronunciation: '/triː/', meaning: 'Cây', emoji: '🌳' },
+            { word: 'House', pronunciation: '/haʊs/', meaning: 'Ngôi nhà', emoji: '🏠' },
+            { word: 'Ball', pronunciation: '/bɔːl/', meaning: 'Quả bóng', emoji: '⚽' },
+            { word: 'Bird', pronunciation: '/bɜːrd/', meaning: 'Con chim', emoji: '🐦' },
+            { word: 'Flower', pronunciation: '/ˈflaʊər/', meaning: 'Bông hoa', emoji: '🌸' }
+        ];
+
+        // Chữ cái tiếng Anh để phát âm
+        const alphabetSounds = {
+            'A': { sound: '/eɪ/', example: 'Apple - /ˈæpəl/', pronunciation: 'ey' },
+            'B': { sound: '/biː/', example: 'Ball - /bɔːl/', pronunciation: 'bee' },
+            'C': { sound: '/siː/', example: 'Cat - /kæt/', pronunciation: 'see' },
+            'D': { sound: '/diː/', example: 'Dog - /dɔːɡ/', pronunciation: 'dee' },
+            'E': { sound: '/iː/', example: 'Elephant - /ˈɛlɪfənt/', pronunciation: 'ee' },
+            'F': { sound: '/ɛf/', example: 'Fish - /fɪʃ/', pronunciation: 'ef' },
+            'G': { sound: '/dʒiː/', example: 'Girl - /ɡɜːrl/', pronunciation: 'jee' },
+            'H': { sound: '/eɪtʃ/', example: 'House - /haʊs/', pronunciation: 'eych' },
+            'I': { sound: '/aɪ/', example: 'Ice - /aɪs/', pronunciation: 'eye' },
+            'J': { sound: '/dʒeɪ/', example: 'Jump - /dʒʌmp/', pronunciation: 'jay' },
+            'K': { sound: '/keɪ/', example: 'Kite - /kaɪt/', pronunciation: 'kay' },
+            'L': { sound: '/ɛl/', example: 'Lion - /ˈlaɪən/', pronunciation: 'el' },
+            'M': { sound: '/ɛm/', example: 'Moon - /muːn/', pronunciation: 'em' },
+            'N': { sound: '/ɛn/', example: 'Nest - /nɛst/', pronunciation: 'en' },
+            'O': { sound: '/oʊ/', example: 'Orange - /ˈɔːrɪndʒ/', pronunciation: 'oh' },
+            'P': { sound: '/piː/', example: 'Pig - /pɪɡ/', pronunciation: 'pee' },
+            'Q': { sound: '/kjuː/', example: 'Queen - /kwiːn/', pronunciation: 'cue' },
+            'R': { sound: '/ɑːr/', example: 'Rain - /reɪn/', pronunciation: 'ar' },
+            'S': { sound: '/ɛs/', example: 'Sun - /sʌn/', pronunciation: 'es' },
+            'T': { sound: '/tiː/', example: 'Tree - /triː/', pronunciation: 'tee' },
+            'U': { sound: '/juː/', example: 'Umbrella - /ʌmˈbrɛlə/', pronunciation: 'you' },
+            'V': { sound: '/viː/', example: 'Van - /væn/', pronunciation: 'vee' },
+            'W': { sound: '/ˈdʌbəljuː/', example: 'Water - /ˈwɔːtər/', pronunciation: 'double-you' },
+            'X': { sound: '/ɛks/', example: 'Xylophone - /ˈzaɪləfəʊn/', pronunciation: 'eks' },
+            'Y': { sound: '/waɪ/', example: 'Yellow - /ˈjɛloʊ/', pronunciation: 'why' },
+            'Z': { sound: '/ziː/', example: 'Zoo - /zuː/', pronunciation: 'zee' }
+        };
+
+        // Số đếm tiếng Anh
+        const englishNumbers = [
+            { number: '0', word: 'Zero', pronunciation: '/ˈzɪərəʊ/', emoji: '0️⃣' },
+            { number: '1', word: 'One', pronunciation: '/wʌn/', emoji: '1️⃣' },
+            { number: '2', word: 'Two', pronunciation: '/tuː/', emoji: '2️⃣' },
+            { number: '3', word: 'Three', pronunciation: '/θriː/', emoji: '3️⃣' },
+            { number: '4', word: 'Four', pronunciation: '/fɔːr/', emoji: '4️⃣' },
+            { number: '5', word: 'Five', pronunciation: '/faɪv/', emoji: '5️⃣' },
+            { number: '6', word: 'Six', pronunciation: '/sɪks/', emoji: '6️⃣' },
+            { number: '7', word: 'Seven', pronunciation: '/ˈsɛvən/', emoji: '7️⃣' },
+            { number: '8', word: 'Eight', pronunciation: '/eɪt/', emoji: '8️⃣' },
+            { number: '9', word: 'Nine', pronunciation: '/naɪn/', emoji: '9️⃣' },
+            { number: '10', word: 'Ten', pronunciation: '/tɛn/', emoji: '🔟' }
+        ];
+
+        // ==================== TRẠNG THÁI ====================
+        let currentSection = 'main';
+        let score = 0;
+        let currentMath = {};
+        let mathDifficulty = 'easy';
+
+        // ==================== KHỞI TẠO ====================
+        window.onload = function() {
+            initVietnamese();
+            initMath();
+            initEnglish();
+        };
+
+        function initVietnamese() {
+            // Tạo bảng chữ cái
+            const alphabetGrid = document.getElementById('alphabet-grid');
+            alphabetGrid.innerHTML = '';
+            
+            vietnameseAlphabet.forEach((letter, index) => {
+                const card = document.createElement('div');
+                card.className = 'letter-card';
+                card.textContent = letter;
+                card.onclick = () => showWords(letter, card);
+                card.style.animationDelay = `${index * 0.05}s`;
+                alphabetGrid.appendChild(card);
+            });
+
+            // Tạo tabs vần
+            const vowelTabs = document.getElementById('vowel-tabs');
+            vowelTabs.innerHTML = '';
+            
+            vowels.forEach((vowel, index) => {
+                const tab = document.createElement('div');
+                tab.className = 'vowel-tab';
+                tab.textContent = vowel.toUpperCase();
+                tab.onclick = () => showVowelSyllables(vowel, tab);
+                tab.style.animationDelay = `${index * 0.05}s`;
+                vowelTabs.appendChild(tab);
+            });
+        }
+
+        function initMath() {
+            generateMath();
+        }
+
+        function initEnglish() {
+            // Tạo danh sách chữ cái phát âm
+            const letterList = document.getElementById('letter-list');
+            letterList.innerHTML = '';
+            
+            Object.keys(alphabetSounds).forEach((letter, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'letter-btn';
+                btn.textContent = letter;
+                btn.onclick = () => showLetterSound(letter, btn);
+                btn.style.animationDelay = `${index * 0.03}s`;
+                letterList.appendChild(btn);
+            });
+
+            // Tạo lưới từ vựng
+            renderVocabulary();
+            
+            // Tạo lưới số đếm
+            renderNumbers();
+        }
+
+        // ==================== ĐIỀU HƯỚNG ====================
+        function showSection(sectionId) {
+            // Ẩn tất cả sections
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            
+            // Hiện section được chọn
+            if (sectionId === 'main') {
+                document.getElementById('main-menu').style.display = 'grid';
+            } else {
+                document.getElementById('main-menu').style.display = 'none';
+                document.getElementById(sectionId).classList.add('active');
+            }
+            
+            currentSection = sectionId;
+        }
+
+        function showVietnameseTab(tab) {
+            // Cập nhật tabs
+            document.querySelectorAll('#vietnamese .category-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Hiện/ẩn nội dung
+            document.getElementById('alphabet-tab').style.display = tab === 'alphabet' ? 'block' : 'none';
+            document.getElementById('vowel-tab').style.display = tab === 'vowel' ? 'block' : 'none';
+        }
+
+        function showEnglishTab(tab) {
+            // Cập nhật tabs
+            document.querySelectorAll('#english .category-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Hiện/ẩy nội dung
+            document.getElementById('vocabulary-tab').style.display = tab === 'vocabulary' ? 'block' : 'none';
+            document.getElementById('pronunciation-tab').style.display = tab === 'pronunciation' ? 'block' : 'none';
+            document.getElementById('numbers-tab').style.display = tab === 'numbers' ? 'block' : 'none';
+        }
+
+        // ==================== TIẾNG VIỆT ====================
+        function showWords(letter, card) {
+            // Bỏ chọn tất cả
+            document.querySelectorAll('.letter-card').forEach(c => c.classList.remove('selected'));
+            
+            // Chọn card hiện tại
+            card.classList.add('selected');
+            
+            // Hiện từ ví dụ
+            const examplesContainer = document.getElementById('word-examples');
+            examplesContainer.style.display = 'grid';
+            examplesContainer.innerHTML = '';
+            
+            const words = wordExamples[letter] || [];
+            words.forEach((item, index) => {
+                const wordCard = document.createElement('div');
+                wordCard.className = 'word-card';
+                wordCard.style.animationDelay = `${index * 0.1}s`;
+                wordCard.innerHTML = `
+                    <div class="image">${item.image}</div>
+                    <div class="word">${item.word}</div>
+                    <div class="meaning">${item.meaning}</div>
+                `;
+                examplesContainer.appendChild(wordCard);
+            });
+        }
+
+        function showVowelSyllables(vowel, tab) {
+            // Bỏ chọn tất cả
+            document.querySelectorAll('.vowel-tab').forEach(t => t.classList.remove('active'));
+            
+            // Chọn tab hiện tại
+            tab.classList.add('active');
+            
+            // Hiện ví dụ vần
+            const examplesContainer = document.getElementById('vowel-examples');
+            examplesContainer.innerHTML = '';
+            
+            const syllables = syllableExamples[vowel] || [];
+            syllables.forEach((item, index) => {
+                const wordCard = document.createElement('div');
+                wordCard.className = 'word-card';
+                wordCard.style.animationDelay = `${index * 0.1}s`;
+                wordCard.innerHTML = `
+                    <div class="image">${item.image}</div>
+                    <div class="word">${item.word}</div>
+                    <div class="meaning">${item.meaning}</div>
+                `;
+                examplesContainer.appendChild(wordCard);
+            });
+        }
+
+        // ==================== TOÁN HỌC ====================
+        function generateMath() {
+            mathDifficulty = document.getElementById('math-difficulty').value;
+            
+            let maxNum;
+            switch(mathDifficulty) {
+                case 'easy': maxNum = 10; break;
+                case 'medium': maxNum = 20; break;
+                case 'hard': maxNum = 50; break;
+            }
+            
+            const num1 = Math.floor(Math.random() * maxNum) + 1;
+            const num2 = Math.floor(Math.random() * maxNum) + 1;
+            const isAddition = Math.random() > 0.5;
+            
+            if (isAddition) {
+                currentMath = {
+                    num1: num1,
+                    num2: num2,
+                    operator: '+',
+                    answer: num1 + num2
+                };
+            } else {
+                // Đảm bảo kết quả dương
+                const bigger = Math.max(num1, num2);
+                const smaller = Math.min(num1, num2);
+                currentMath = {
+                    num1: bigger,
+                    num2: smaller,
+                    operator: '−',
+                    answer: bigger - smaller
+                };
+            }
+            
+            document.getElementById('math-problem').textContent = 
+                `${currentMath.num1} ${currentMath.operator} ${currentMath.num2} = ?`;
+            document.getElementById('math-answer').value = '';
+            document.getElementById('math-answer').focus();
+            document.getElementById('math-result').style.display = 'none';
+            document.getElementById('math-answer').style.display = 'block';
+        }
+
+        function checkMath() {
+            const userAnswer = parseInt(document.getElementById('math-answer').value);
+            
+            if (isNaN(userAnswer)) {
+                alert('Vui lòng nhập số!');
+                return;
+            }
+            
+            document.getElementById('math-answer').style.display = 'none';
+            document.getElementById('math-result').style.display = 'block';
+            
+            if (userAnswer === currentMath.answer) {
+                score += 10;
+                document.getElementById('result-emoji').textContent = '🎉';
+                document.getElementById('result-text').textContent = 'Giỏi lắm! Đúng rồi!';
+                document.getElementById('result-text').style.color = '#4ecdc4';
+            } else {
+                document.getElementById('result-emoji').textContent = '😊';
+                document.getElementById('result-text').textContent = `Sai rồi! Đáp án là ${currentMath.answer}`;
+                document.getElementById('result-text').style.color = '#ff6b6b';
+            }
+            
+            document.getElementById('score').textContent = score;
+            updateProgress();
+        }
+
+        function nextMath() {
+            generateMath();
+        }
+
+        function handleMathKey(event) {
+            if (event.key === 'Enter') {
+                checkMath();
+            }
+        }
+
+        function updateProgress() {
+            const progress = Math.min(score / 100 * 100, 100);
+            document.getElementById('progress-bar').style.width = progress + '%';
+        }
+
+        // ==================== TIẾNG ANH ====================
+        function renderVocabulary() {
+            const grid = document.getElementById('vocabulary-grid');
+            grid.innerHTML = '';
+            
+            englishVocabulary.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'english-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.innerHTML = `
+                    <div style="font-size: 3rem;">${item.emoji}</div>
+                    <div class="word">${item.word}</div>
+                    <div class="pronunciation">${item.pronunciation}</div>
+                    <div class="meaning">${item.meaning}</div>
+                    <button class="speaker-btn" onclick="speakWord('${item.word}')">🔊</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderNumbers() {
+            const grid = document.getElementById('numbers-grid');
+            grid.innerHTML = '';
+            
+            englishNumbers.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'english-card';
+                card.style.animationDelay = `${index * 0.05}s`;
+                card.innerHTML = `
+                    <div style="font-size: 3rem;">${item.emoji}</div>
+                    <div class="word">${item.number}</div>
+                    <div class="word" style="font-size: 1.5rem; margin-top: 10px;">${item.word}</div>
+                    <div class="pronunciation">${item.pronunciation}</div>
+                    <button class="speaker-btn" onclick="speakWord('${item.word}')">🔊</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function showLetterSound(letter, btn) {
+            // Highlight button
+            document.querySelectorAll('.letter-btn').forEach(b => b.style.transform = 'scale(1)');
+            btn.style.transform = 'scale(1.2)';
+            
+            const data = alphabetSounds[letter];
+            document.getElementById('pronunciation-display').style.display = 'block';
+            document.getElementById('phonetic-letter').textContent = letter;
+            document.getElementById('phonetic-sound').textContent = data.sound;
+            document.getElementById('phonetic-example').textContent = data.example;
+            
+            // Tự động phát âm
+            speakLetter(letter);
+        }
+
+        // ==================== ÂM THANH ====================
+        function speakLetter(letter) {
+            if (!letter) {
+                letter = document.getElementById('phonetic-letter').textContent;
+            }
+            
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(letter);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        function speakWord(word) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.7;
+                speechSynthesis.speak(utterance);
+            }
+        }
+    </script>
+</body>
+</html>
